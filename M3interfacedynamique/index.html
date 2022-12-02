@@ -1,0 +1,204 @@
+<!--ECF JONATHAN-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>APIMOCK</title>
+    <style>
+      #j1 {
+        font-family: Arial, Helvetica, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+      }
+      
+      #j1 td, #j1 th {
+        border: 1px solid #ddd;
+        padding: 8px;
+      }
+      
+      #j1 tr:nth-child(even){background-color: #f2f2f2;}
+      
+      #j1 tr:hover {background-color: #ddd;}
+      
+      #j1 th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: left;
+        background-color: #04AA6D;
+        color: white;
+      }
+
+      .reader {
+        background-color: #4CAF50; /* Green */
+        border: none;
+        color: white;
+        padding: 16px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 5px 3px 5px;
+        transition-duration: 0.4s;
+        cursor: pointer;
+      }
+
+      h1 {
+        text-align: center;
+        text-transform: uppercase;
+        color: #4CAF50;
+      }
+      div {
+        border: 1px solid gray;
+        padding: 8px;
+      }
+
+
+      </style>
+  </head>
+  <body>
+    <h1>Api mock</h1>
+
+    <div>
+      <p>
+        Lecture de l'adresse depuis:
+        <a href="https://6057e432c3f49200173ad08d.mockapi.io/employees">https://6057e432c3f49200173ad08d.mockapi.io/employees</a>
+      </p>
+      <button class="reader" type="button" onclick="lance()">
+        Afficher la liste
+      </button>
+
+      <button class="reader" type="button" onclick="unshow() ">
+      Cacher
+      </button>
+      <div id="adress-output">
+        <table id="j1">
+         <tr> 
+          <th>id</th>
+          <th>last_name</th>
+          <th>Name</th>
+          <th>Job Title</th>
+          <th>email</th>
+          <th>firstname</th>
+          <th>lastname</th>
+          <th>select</th>
+         </tr> 
+        </table>
+       
+      </div>
+      <button class="reader" type="submit" onclick="showForm()">Add an element</button>
+      <button class="reader" type="button" onclick="updateitem()">Mettre a jour l'élément</button>
+      <form method="post" id="newitem" style="display: none;">
+        <label>id:
+            <input type="number" placeholder="id">
+        </label>
+        <label>last_name:
+            <input type="text" placeholder="last_name"> 
+        </label>
+        <label>Name:
+            <input type="text" placeholder="Name"> 
+        </label>
+        <label>Job Title:
+            <input type="text" placeholder="Titre du job"> 
+        </label>
+        <label>email:
+            <input type="email" placeholder="joedoe@gmail.com"> 
+        </label>
+        <label>firstname:
+            <input type="text" placeholder="First Name"> 
+        </label>
+        <label>lastname:
+            <input type="text" placeholder="Last Name"> 
+        </label><br>
+        <button class="reader" type="button" onclick="additem();hideForm()">Save</button>
+        <button class="reader" type="button" onclick="hideForm()">Cancel</button>
+      </form>
+    </div>
+
+    <script>
+
+      function show() {
+        document.getElementById("js.script").removeAttribute("style");
+        document.getElementById("code").setAttribute("style", "display: none");
+      }
+
+      function unshow() {
+        location.reload()
+      }
+
+
+      function lance() {
+        var xhttp=new XMLHttpRequest();
+        xhttp.onreadystatechange = function (){
+            if(this.readyState == 4 && this.status ==200){
+              var x=this.responseText;
+              var xparsed=JSON.parse(x)
+
+              const info=document.getElementById("j1")
+              //*for (let i = 0; i < xparsed.length; i++) {
+               // var newlist= xparsed[i]
+              console.log(typeof(info))
+              xparsed.forEach(element => {
+                info.innerHTML += "<tr>"; 
+                  
+                info.innerHTML+= "<td>"+ element.id + "</td>" +"<td>"+ element.last_name + "</td>" + "<td>" + element.name + "</td>" + "<td>" + element.job_title + "</td>"+"<td>"+element.email+"</td>"+"<td>" + element.firstname + "</td>"+"<td>" + element.lastname + "</td>"+"<td><button>modif</button></td>" ;
+
+                info.innerHTML += "</tr>";
+                //});
+              
+                    
+               })
+            }
+            else{
+                //document.getElementById("adress-output").innerHTML="error";
+                console.log("t es dans le else")
+            }
+        };
+        xhttp.open("GET",'https://6057e432c3f49200173ad08d.mockapi.io/employees',true);
+        xhttp.send();
+      }
+
+      function filtre(){
+        handleClick = event =>{
+          const brandValues = event.target.value
+          if(brandValues === "all"){
+            return this.getBrands()
+          }
+          else{
+            let brandSortDataByCharacter = this.state.brandSortData[brandValues]
+            return brandSortDataByCharacter
+          }
+        }
+      }
+
+      function showForm(){
+        console.log("Boutton pour réveler le formulaire d'ajout")
+        document.getElementById("newitem").style.display = 'block';
+      }
+
+      function hideForm (){
+        document.getElementById("newitem").style.display = 'none';
+      }
+
+      function additem(){
+        console.log('2')
+      }
+
+      function cacher(){
+        document.getElementById("newitem").style.display = 'none';
+      }
+
+      /*
+      function cacherlst(){
+        document.getElementById("adress-output").style.display = 'none'
+        ;
+      }
+      */
+      function select(){
+
+      }
+      
+    </script>
+  </body>
+</html>
